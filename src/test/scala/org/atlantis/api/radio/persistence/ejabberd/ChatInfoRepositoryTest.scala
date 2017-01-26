@@ -1,15 +1,14 @@
-package org.atlantis.api.radio.core.restapi
+package org.atlantis.api.radio.persistence.ejabberd
 
 import com.twitter.inject.app.TestInjector
 import com.twitter.inject.{Injector, IntegrationTest}
 import com.twitter.util.Await
 import org.atlantis.api.radio.core.jackson.CustomJacksonModule
-import org.atlantis.api.radio.persistence.ejabberd.{ChatInfoRepository, SimpleUserInfo}
 
 /**
   * Created by ktz on 17. 1. 27.
   */
-class httpRestApiTest extends IntegrationTest{
+class ChatInfoRepositoryTest extends IntegrationTest{
   override protected def injector: Injector = TestInjector(CustomJacksonModule)
 
   val ejabberdClient: ChatInfoRepository = injector.instance[ChatInfoRepository]
