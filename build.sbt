@@ -17,13 +17,28 @@ lazy val versions = new {
   val scalacheck = "1.13.4"
   val specs2 = "2.3.12"
   val typesafeConfig = "1.3.1"
+  val logback = "1.1.9"
 }
 
+assemblyMergeStrategy in assembly := {
+  case "BUILD" => MergeStrategy.discard
+  case "META-INF/io.netty.versions.properties" => MergeStrategy.last
+  case PathList("org", "apache", "commons", "logging", xs @ _*)   => MergeStrategy.last
+  case PathList("org", "apache", "log4j", xs @ _*)   => MergeStrategy.discard
+  case PathList("com", "twitter", "finagle", "http", "codec", xs @ _*)   => MergeStrategy.last
+  case other => MergeStrategy.defaultMergeStrategy(other)
+}
+
+assemblyJarName in assembly := s"atlantis_radio_server.jar"
+
+test in assembly := {}
+
 libraryDependencies ++= Seq(
-  "com.twitter" %% "finatra-thrift" % versions.finatra,
+  "com.twitter" %% "finatra-http" % versions.finatra,
   "com.github.finagle" %% "finagle-http-auth" % versions.finagle_auth,
   "com.typesafe" % "config" % versions.typesafeConfig,
   "com.github.xiaodongw" %% "swagger-finatra" % versions.swagger_finatra,
+  "ch.qos.logback" % "logback-classic" % versions.logback,
 
   "com.twitter" %% "finatra-http" % versions.finatra % "test",
   "com.twitter" %% "inject-server" % versions.finatra % "test",
